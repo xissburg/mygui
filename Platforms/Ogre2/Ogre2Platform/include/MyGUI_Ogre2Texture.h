@@ -29,46 +29,6 @@
 
 namespace MyGUI
 {
-	class OgreHlmsBlocks 
-	{
-
-	public:
-		OgreHlmsBlocks() 
-		{
-			mMacroBlock.mCullMode = Ogre::CULL_NONE;
-			mMacroBlock.mPolygonMode = Ogre::PM_SOLID;
-			mMacroBlock.mDepthBiasConstant = 0;
-			mMacroBlock.mDepthBiasSlopeScale = 0;
-			mMacroBlock.mDepthCheck = false;
-			mMacroBlock.mDepthWrite = false;
-
-			mBlendBlock.mAlphaToCoverageEnabled = false;
-			mBlendBlock.mSourceBlendFactor = Ogre::SBF_SOURCE_ALPHA;
-			mBlendBlock.mDestBlendFactor = Ogre::SBF_ONE_MINUS_SOURCE_ALPHA;
-
-			mSamplerBlock.mU = Ogre::TAM_CLAMP;
-			mSamplerBlock.mV = Ogre::TAM_CLAMP;
-			mSamplerBlock.mW = Ogre::TAM_CLAMP;
-		}
-
-		Ogre::HlmsUnlitDatablock* createUnlitDataBlock( Ogre::String id ) const 
-		{
-			Ogre::Hlms* hlms = Ogre::Root::getSingleton().getHlmsManager()->getHlms( Ogre::HLMS_UNLIT );
-
-			MYGUI_PLATFORM_ASSERT(hlms != 0, "Ogre::HLMS_UNLIT model was not properly setup.");
-
-			return static_cast<Ogre::HlmsUnlitDatablock*>(hlms->createDatablock(Ogre::IdString( id ), id, mMacroBlock, mBlendBlock, mParamsVec));
-		}
-
-	private:
-		Ogre::HlmsMacroblock mMacroBlock;
-		Ogre::HlmsBlendblock mBlendBlock;
-		Ogre::HlmsSamplerblock  mSamplerBlock;
-		Ogre::HlmsParamVec mParamsVec;
-	};
-
-
-
 	class Ogre2Texture :
 		public ITexture,
 		public Ogre::ManualResourceLoader
@@ -153,7 +113,6 @@ namespace MyGUI
 		Ogre::HlmsUnlitDatablock* mDataBlock;
 
 	private:
-		static const OgreHlmsBlocks HLMS_BLOCKS;
 		static const Ogre::uint8 TEXTURE_UNIT_NUMBER;
 	};
 

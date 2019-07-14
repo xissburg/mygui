@@ -28,7 +28,27 @@ namespace MyGUI
 	{
 		mTmpData.data = nullptr;
 
-		mDataBlock = HLMS_BLOCKS.createUnlitDataBlock(_name);
+		Ogre::HlmsMacroblock macroBlock;
+		Ogre::HlmsBlendblock blendBlock;
+		Ogre::HlmsParamVec paramsVec;
+
+		macroBlock.mCullMode = Ogre::CULL_NONE;
+		macroBlock.mPolygonMode = Ogre::PM_SOLID;
+		macroBlock.mDepthBiasConstant = 0;
+		macroBlock.mDepthBiasSlopeScale = 0;
+		macroBlock.mDepthCheck = false;
+		macroBlock.mDepthWrite = false;
+
+		blendBlock.mAlphaToCoverageEnabled = false;
+		blendBlock.mSourceBlendFactor = Ogre::SBF_SOURCE_ALPHA;
+		blendBlock.mDestBlendFactor = Ogre::SBF_ONE_MINUS_SOURCE_ALPHA;
+	
+		Ogre::Hlms* hlms = Ogre::Root::getSingleton().getHlmsManager()->getHlms( Ogre::HLMS_UNLIT );
+
+		MYGUI_PLATFORM_ASSERT(hlms != 0, "Ogre::HLMS_UNLIT model was not properly setup.");
+
+		Ogre::HlmsDatablock* datablock = hlms->createDatablock(Ogre::IdString(_name), _name, macroBlock, blendBlock, paramsVec);
+		mDataBlock = static_cast<Ogre::HlmsUnlitDatablock*>(datablock);
 	}
 
 	Ogre2Texture::~Ogre2Texture()
@@ -318,7 +338,5 @@ namespace MyGUI
 	}
 
 	const Ogre::uint8 Ogre2Texture::TEXTURE_UNIT_NUMBER = 0;
-
-	const OgreHlmsBlocks Ogre2Texture::HLMS_BLOCKS;
 
 } // namespace MyGUI
